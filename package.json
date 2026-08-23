@@ -1,0 +1,19 @@
+{
+  "name": "@topdiscordlist/sdk",
+  "version": "1.0.0",
+  "description": "Official Top Discord List SDK: vote webhooks, live vote stream, and developer API.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": ["index.js", "index.d.ts", "README.md", "LICENSE"],
+  "keywords": ["discord", "topdiscordlist", "votes", "webhooks", "discord-bot", "bot-list"],
+  "homepage": "https://topdiscordlist.com/developers",
+  "repository": { "type": "git", "url": "git+https://github.com/TopDiscordLists/node-sdk.git" },
+  "bugs": { "url": "https://github.com/TopDiscordLists/node-sdk/issues" },
+  "author": "Top Discord List",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "publishConfig": { "access": "public", "provenance": true },
+  "scripts": {
+    "test": "node ../conformance/run_js.mjs"
+  }
+}
