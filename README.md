@@ -31,6 +31,9 @@ The same panel has a **Send test event** button that fires a real signed
 delivery at your webhook URL, so you can check your wiring without waiting for
 somebody to actually vote.
 
+That one token does every job: it authenticates the API and the vote stream, and
+it is the key we sign your webhooks with. There is nothing else to manage.
+
 ## Two ways to hear about a vote
 
 **The vote stream** is a WebSocket. Your bot dials out to us, so it works from a
@@ -75,7 +78,7 @@ const { webhookHandler } = require("@topdiscordlist/sdk");
 
 http
   .createServer(
-    webhookHandler(process.env.TDL_WEBHOOK_SECRET, async (payload) => {
+    webhookHandler(process.env.TDL_TOKEN, async (payload) => {
       if (payload.vote.isTest) return;
       await giveReward(payload.user.discordId);
     }),
@@ -92,7 +95,7 @@ const { expressWebhook } = require("@topdiscordlist/sdk");
 app.post(
   "/vote",
   express.raw({ type: "application/json" }),
-  expressWebhook(process.env.TDL_WEBHOOK_SECRET, async (payload) => {
+  expressWebhook(process.env.TDL_TOKEN, async (payload) => {
     if (payload.vote.isTest) return;
     await giveReward(payload.user.discordId);
   }),
@@ -107,7 +110,7 @@ Verifying by hand, if you have a router you like:
 ```js
 const { verifySignature } = require("@topdiscordlist/sdk");
 
-if (!verifySignature(secret, req.headers["x-tdl-signature"], rawBody)) {
+if (!verifySignature(process.env.TDL_TOKEN, req.headers["x-tdl-signature"], rawBody)) {
   return res.sendStatus(401);
 }
 ```
