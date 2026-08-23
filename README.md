@@ -7,12 +7,6 @@ Hand out rewards when someone votes for your Discord server or bot on
 npm install @topdiscordlist/sdk
 ```
 
-> **Not on npm yet.** The first release is still to come. Until then:
->
-> ```bash
-> npm install github:TopDiscordLists/node-sdk
-> ```
-
 ```js
 const { VoteListener } = require("@topdiscordlist/sdk");
 
