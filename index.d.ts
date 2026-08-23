@@ -42,6 +42,19 @@ export declare class TopDiscordList {
   hasVoted(discordId: string): Promise<{ voted: boolean; votedAt: string | null; expiresAt: string | null }>;
   hasVotedByUserId(userId: string): Promise<{ voted: boolean; votedAt: string | null; expiresAt: string | null }>;
   votes(options?: { limit?: number; page?: number }): Promise<{ votes: unknown[]; page: number; limit: number }>;
+  analytics(options?: { days?: number }): Promise<{
+    listing: VotePayload["listing"] | null;
+    window: { days: number; from: string; to: string };
+    totals: {
+      impressions: number;
+      clicks: number;
+      joins: number;
+      votes: number;
+      clickThroughRate: number;
+      joinRate: number;
+    };
+    daily: { date: string; impressions: number; clicks: number; joins: number; votes: number }[];
+  }>;
   postStats(stats: { slug: string; serverCount: number; userCount?: number; shardCount?: number }): Promise<{ ok: boolean; reportedAt: string }>;
 }
 

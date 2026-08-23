@@ -93,6 +93,10 @@ class TopDiscordList {
     return this._request(`/v1/votes?limit=${limit}&page=${page}`);
   }
 
+  analytics({ days = 7 } = {}) {
+    return this._request(`/v1/analytics?days=${days}`);
+  }
+
   postStats(stats) {
     if (!stats || typeof stats.serverCount !== "number") {
       throw new TopDiscordListError("serverCount is required");

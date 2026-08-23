@@ -138,6 +138,7 @@ await client.listing();
 await client.hasVoted("123456789012345678");
 await client.hasVotedByUserId("user_abc");
 await client.votes({ limit: 50, page: 1 });
+await client.analytics({ days: 7 });
 await client.postStats({ slug: "my-bot", serverCount: 1200, shardCount: 4 });
 ```
 
