@@ -271,7 +271,7 @@ Webhooks are recommended when you need reliable vote delivery because they:
 
 Configure your webhook URL under:
 
-**Edit Listing → Vote Rewards**
+**Dashboard → Bot → Developer Integrations**
 
 For example:
 
@@ -732,5 +732,3 @@ await tdl.postStats(stats);
 # License
 
 MIT
-``` 
-```
