@@ -88,3 +88,29 @@ export interface VoteWebhook {
     listing: WebhookListing;
     streak: WebhookStreak;
 }
+export interface WebhookPayload {
+    event: "vote" | "test";
+    deliveryId: string;
+    sentAt: string;
+    vote: {
+        id: string;
+        votedAt: string;
+        isTest?: boolean;
+    };
+    user: {
+        id: string;
+        username: string;
+        discordId: string;
+    };
+    listing: {
+        type: "bot" | "server";
+        id: string;
+        slug: string;
+        name: string;
+        voteCount: number;
+    };
+    streak: {
+        listing: number;
+        global: number;
+    };
+}

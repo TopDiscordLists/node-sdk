@@ -1,4 +1,5 @@
-import type { ClientOptions, Listing, VoteCheck, VotesResponse, BotStats, Analytics } from "../utils/typings.js";
+import type { ClientOptions, Listing, VoteCheck, VotesResponse, BotStats, Analytics, WebhookPayload } from "../utils/typings.js";
+import type { RequestHandler } from "express";
 export declare class Client {
     private readonly token;
     private readonly apiUrl;
@@ -33,4 +34,5 @@ export declare class Client {
      * The raw request body must be provided before JSON parsing.
      */
     static verifyWebhook(signature: string, rawBody: string | Buffer, token: string): boolean;
+    expressWebhook(handler: (payload: WebhookPayload) => Promise<void> | void): RequestHandler;
 }

@@ -7,7 +7,7 @@ exports.Client = void 0;
 const errors_js_1 = require("../utils/errors.js");
 const crypto_1 = __importDefault(require("crypto"));
 const API_VERSION = "v1";
-const DEFAULT_API_URL = "https://topdiscordlist.com/api";
+const DEFAULT_API_URL = "https://topdiscordlist.pages.dev/api";
 class Client {
     token;
     apiUrl;
@@ -25,12 +25,25 @@ class Client {
                 ...options.headers
             }
         });
-        const data = await response.json();
+        const text = await response.text();
         if (!response.ok) {
-            throw new errors_js_1.APIError(data.error ??
-                "An unknown API error occurred.", response.status);
+            let errorMessage = "An unknown API error occurred.";
+            if (text) {
+                try {
+                    const data = JSON.parse(text);
+                    errorMessage =
+                        data.error ?? errorMessage;
+                }
+                catch {
+                    // Response wasn't valid JSON.
+                }
+            }
+            throw new errors_js_1.APIError(errorMessage, response.status);
         }
-        return data;
+        if (!text) {
+            return undefined;
+        }
+        return JSON.parse(text);
     }
     /**
      * Get the listing associated with this token.
@@ -74,7 +87,7 @@ class Client {
      */
     async postStats(stats) {
         const listing = await this.getListing();
-        await this.request(`${DEFAULT_API_URL}/bots/${encodeURIComponent(listing.slug)}/stats`, {
+        await this.request(`/stats`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -116,6 +129,33 @@ class Client {
         catch {
             return false;
         }
+    }
+    expressWebhook(handler) {
+        return async (req, res, next) => {
+            const signature = req.headers["x-tdl-signature"];
+            if (typeof signature !== "string" ||
+                !Buffer.isBuffer(req.body)) {
+                return res.sendStatus(400);
+            }
+            const valid = Client.verifyWebhook(signature, req.body, this.token);
+            if (!valid) {
+                return res.sendStatus(401);
+            }
+            let payload;
+            try {
+                payload = JSON.parse(req.body.toString("utf8"));
+            }
+            catch {
+                return res.sendStatus(400);
+            }
+            res.sendStatus(200);
+            try {
+                await handler(payload);
+            }
+            catch (error) {
+                console.error("[TopDiscordList] Webhook handler failed:", error);
+            }
+        };
     }
 }
 exports.Client = Client;
