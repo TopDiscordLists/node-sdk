@@ -1,4 +1,3 @@
-```markdown
 # @topdiscordlist/sdk
 
 Official JavaScript/TypeScript SDK for interacting with the TopDiscordList API.
@@ -23,7 +22,7 @@ The SDK provides:
 
 ```bash
 npm install @topdiscordlist/sdk
-```
+
 
 ## Getting Your Token
 
