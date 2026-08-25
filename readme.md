@@ -22,7 +22,7 @@ The SDK provides:
 
 ```bash
 npm install @topdiscordlist/sdk
-
+```
 
 ## Getting Your Token
 
