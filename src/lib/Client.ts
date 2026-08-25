@@ -73,52 +73,6 @@ export class Client {
         return JSON.parse(text) as T;
     }
 
-    private async request2<T>(
-        endpoint: string,
-        options: RequestInit = {}
-    ): Promise<T> {
-        const response = await fetch(
-            `${DEFAULT_API_URL}${endpoint}`,
-            {
-                ...options,
-                headers: {
-                    Authorization: `Bot ${this.token}`,
-                    ...options.headers
-                }
-            }
-        );
-
-        const text = await response.text();
-
-        if (!response.ok) {
-            let errorMessage = "An unknown API error occurred.";
-
-            if (text) {
-                try {
-                    const data = JSON.parse(text) as {
-                        error?: string;
-                    };
-
-                    errorMessage =
-                        data.error ?? errorMessage;
-                } catch {
-                    // Response wasn't valid JSON.
-                }
-            }
-
-            throw new APIError(
-                errorMessage,
-                response.status
-            );
-        }
-
-        if (!text) {
-            return undefined as T;
-        }
-
-        return JSON.parse(text) as T;
-    }
-
     /**
      * Get the listing associated with this token.
      */
@@ -193,8 +147,8 @@ export class Client {
     ): Promise<void> {
         const listing = await this.getListing();
 
-        await this.request2(
-            `/bots/${encodeURIComponent(listing.slug)}/stats`,
+        await this.request(
+            `/stats`,
             {
                 method: "POST",
                 headers: {
