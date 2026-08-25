@@ -1,0 +1,35 @@
+{
+  "name": "@topdiscordlist/sdk",
+  "version": "1.0.0",
+  "description": "Node.JS SDK for TopDiscordList",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TopDiscordLists/node-sdk.git"
+  },
+  "author": "NationCrazy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TopDiscordLists/node-sdk/issues"
+  },
+  "homepage": "https://github.com/TopDiscordLists/node-sdk#readme",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "typescript": "^5.9.0"
+  }
+}

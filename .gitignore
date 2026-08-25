@@ -1,0 +1,5 @@
+/node_modules
+/testing/discordbot/node_modules
+.env.example
+testing/discordbot/package-lock.json
+package-lock.json
