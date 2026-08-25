@@ -27,8 +27,8 @@ npm install @topdiscordlist/sdk
 ## Getting Your Token
 
 1. Open your TopDiscordList listing.
-2. Go to **Edit Listing**.
-3. Open **Developer Integrations**.
+2. Go to **Dashborad**.
+3. Select the bot and head to **Developer Integrations**.
 4. Generate a token.
 5. Store the token securely.
 
