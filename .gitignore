@@ -3,3 +3,5 @@
 .env.example
 testing/discordbot/package-lock.json
 package-lock.json
+.npmignore
+/dist
