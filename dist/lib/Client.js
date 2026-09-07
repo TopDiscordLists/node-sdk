@@ -1,11 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const errors_js_1 = require("../utils/errors.js");
-const node_crypto_1 = __importDefault(require("node:crypto"));
+const signature_js_1 = require("../utils/signature.js");
 const API_VERSION = "v1";
 const DEFAULT_API_URL = "https://topdiscordlist.pages.dev/api";
 class Client {
@@ -100,34 +97,7 @@ class Client {
      * The raw request body must be provided before JSON parsing.
      */
     static verifyWebhook(signature, rawBody, token) {
-        try {
-            const match = signature.match(/^t=(\d+),v1=([a-f0-9]+)$/);
-            if (!match) {
-                return false;
-            }
-            const timestamp = Number(match[1]);
-            const providedSignature = match[2];
-            const now = Math.floor(Date.now() / 1000);
-            // Reject signatures older/newer than 5 minutes.
-            if (Math.abs(now - timestamp) > 300) {
-                return false;
-            }
-            const payload = `${timestamp}.${rawBody.toString()}`;
-            const expectedSignature = node_crypto_1.default
-                .createHmac("sha256", token)
-                .update(payload)
-                .digest("hex");
-            const expectedBuffer = Buffer.from(expectedSignature, "utf8");
-            const providedBuffer = Buffer.from(providedSignature, "utf8");
-            if (expectedBuffer.length !==
-                providedBuffer.length) {
-                return false;
-            }
-            return node_crypto_1.default.timingSafeEqual(expectedBuffer, providedBuffer);
-        }
-        catch {
-            return false;
-        }
+        return (0, signature_js_1.verifySignature)(token, signature, rawBody);
     }
     expressWebhook(handler) {
         return async (req, res, next) => {

@@ -1,0 +1,18 @@
+{
+  "description": "Shared HMAC-SHA256 test vectors. Every SDK must reproduce these exactly.",
+  "algorithm": "HMAC-SHA256 over `${timestamp}.${rawBody}`, hex encoded",
+  "header": "X-TDL-Signature: t=<timestamp>,v1=<hex>",
+  "secret": "whsec_0123456789abcdef0123456789abcdef0123456789abcdef",
+  "timestamp": 1756000000,
+  "body": "{\"event\":\"vote\",\"deliveryId\":\"whd_testvector0000000000000000000\",\"sentAt\":\"2026-08-23T00:00:00.000Z\",\"vote\":{\"id\":\"vote_testvector000000000000000000\",\"votedAt\":\"2026-08-23T00:00:00.000Z\"},\"user\":{\"id\":\"user_abc\",\"username\":\"voter\",\"discordId\":\"123456789012345678\"},\"listing\":{\"type\":\"bot\",\"id\":\"bot_abc\",\"slug\":\"example-bot\",\"name\":\"Example Bot\",\"voteCount\":42},\"streak\":{\"listing\":3,\"global\":12}}",
+  "signature": "dd730ec48c53f4e1f86abc3c9a77207ce15ffddb8f20055227fef9e6bf8f5e8a",
+  "signatureHeader": "t=1756000000,v1=dd730ec48c53f4e1f86abc3c9a77207ce15ffddb8f20055227fef9e6bf8f5e8a",
+  "invalidSignatureHeader": "t=1756000000,v1=0000000000000000000000000000000000000000000000000000000000000000",
+  "staleTimestampHeader": "t=1000000000,v1=dd730ec48c53f4e1f86abc3c9a77207ce15ffddb8f20055227fef9e6bf8f5e8a",
+  "staleButValidHeader": "t=1755996400,v1=92c525d23882aedda1201d1df0b423ba6587e23072b675ed703df30b82858f4d",
+  "staleTimestamp": 1755996400,
+  "notes": {
+    "staleTimestampHeader": "t rewritten but v1 kept from the fresh signature. Always invalid, because t is signed.",
+    "staleButValidHeader": "correctly signed one hour ago. Invalid inside a 300s tolerance, valid when tolerance is disabled."
+  }
+}

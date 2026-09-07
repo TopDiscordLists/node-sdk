@@ -10,7 +10,7 @@ import type {
 } from "../utils/typings.js";
 
 import { APIError } from "../utils/errors.js";
-import crypto from "node:crypto";
+import { verifySignature as verifyRawSignature } from "../utils/signature.js";
 
 const API_VERSION = "v1";
 const DEFAULT_API_URL = "https://topdiscordlist.pages.dev/api";
@@ -167,54 +167,7 @@ export class Client {
         rawBody: string | Buffer,
         token: string
     ): boolean {
-        try {
-            const match = signature.match(
-                /^t=(\d+),v1=([a-f0-9]+)$/
-            );
-
-            if (!match) {
-                return false;
-            }
-
-            const timestamp = Number(match[1]);
-            const providedSignature = match[2];
-
-            const now = Math.floor(Date.now() / 1000);
-
-            // Reject signatures older/newer than 5 minutes.
-            if (Math.abs(now - timestamp) > 300) {
-                return false;
-            }
-
-            const payload =
-                `${timestamp}.${rawBody.toString()}`;
-
-            const expectedSignature =
-                crypto
-                    .createHmac("sha256", token)
-                    .update(payload)
-                    .digest("hex");
-
-            const expectedBuffer =
-                Buffer.from(expectedSignature, "utf8");
-
-            const providedBuffer =
-                Buffer.from(providedSignature, "utf8");
-
-            if (
-                expectedBuffer.length !==
-                providedBuffer.length
-            ) {
-                return false;
-            }
-
-            return crypto.timingSafeEqual(
-                expectedBuffer,
-                providedBuffer
-            );
-        } catch {
-            return false;
-        }
+        return verifyRawSignature(token, signature, rawBody);
     }
 
     public expressWebhook(
