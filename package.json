@@ -24,9 +24,7 @@
     "url": "https://github.com/TopDiscordLists/node-sdk/issues"
   },
   "homepage": "https://github.com/TopDiscordLists/node-sdk#readme",
-  "dependencies": {
-    "crypto": "^1.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^26.2.0",

@@ -1,3 +1,11 @@
+export interface WebhookRequestLike {
+    headers: Record<string, unknown>;
+    body: unknown;
+}
+export interface WebhookResponseLike {
+    sendStatus(code: number): unknown;
+}
+export type WebhookMiddleware = (req: WebhookRequestLike, res: WebhookResponseLike, next: () => void) => void;
 export interface ClientOptions {
     token: string;
     apiUrl?: string;

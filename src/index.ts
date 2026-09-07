@@ -1,5 +1,8 @@
 export { Client } from "./lib/Client.js";
 
 export type {
-    ClientOptions
+    ClientOptions,
+    WebhookMiddleware,
+    WebhookRequestLike,
+    WebhookResponseLike
 } from "./utils/typings.js";

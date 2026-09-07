@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const errors_js_1 = require("../utils/errors.js");
-const crypto_1 = __importDefault(require("crypto"));
+const node_crypto_1 = __importDefault(require("node:crypto"));
 const API_VERSION = "v1";
 const DEFAULT_API_URL = "https://topdiscordlist.pages.dev/api";
 class Client {
@@ -86,7 +86,6 @@ class Client {
      * Post bot statistics to TopDiscordList.
      */
     async postStats(stats) {
-        const listing = await this.getListing();
         await this.request(`/stats`, {
             method: "POST",
             headers: {
@@ -114,7 +113,7 @@ class Client {
                 return false;
             }
             const payload = `${timestamp}.${rawBody.toString()}`;
-            const expectedSignature = crypto_1.default
+            const expectedSignature = node_crypto_1.default
                 .createHmac("sha256", token)
                 .update(payload)
                 .digest("hex");
@@ -124,7 +123,7 @@ class Client {
                 providedBuffer.length) {
                 return false;
             }
-            return crypto_1.default.timingSafeEqual(expectedBuffer, providedBuffer);
+            return node_crypto_1.default.timingSafeEqual(expectedBuffer, providedBuffer);
         }
         catch {
             return false;

@@ -5,12 +5,12 @@ import type {
     VotesResponse,
     BotStats,
     Analytics,
-    WebhookPayload
+    WebhookPayload,
+    WebhookMiddleware
 } from "../utils/typings.js";
 
 import { APIError } from "../utils/errors.js";
-import crypto from "crypto";
-import type { RequestHandler } from "express";
+import crypto from "node:crypto";
 
 const API_VERSION = "v1";
 const DEFAULT_API_URL = "https://topdiscordlist.pages.dev/api";
@@ -145,8 +145,6 @@ export class Client {
     public async postStats(
         stats: BotStats
     ): Promise<void> {
-        const listing = await this.getListing();
-
         await this.request(
             `/stats`,
             {
@@ -221,7 +219,7 @@ export class Client {
 
     public expressWebhook(
         handler: (payload: WebhookPayload) => Promise<void> | void
-    ): RequestHandler {
+    ): WebhookMiddleware {
         return async (req, res, next) => {
             const signature = req.headers["x-tdl-signature"];
 
