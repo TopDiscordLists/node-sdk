@@ -13,7 +13,7 @@ import { APIError } from "../utils/errors.js";
 import { verifySignature as verifyRawSignature } from "../utils/signature.js";
 
 const API_VERSION = "v1";
-const DEFAULT_API_URL = "https://topdiscordlist.pages.dev/api";
+const DEFAULT_API_URL = "https://topdiscordlist.com/api";
 
 export class Client {
     private readonly token: string;
