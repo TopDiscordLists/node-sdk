@@ -4,7 +4,7 @@ exports.Client = void 0;
 const errors_js_1 = require("../utils/errors.js");
 const signature_js_1 = require("../utils/signature.js");
 const API_VERSION = "v1";
-const DEFAULT_API_URL = "https://topdiscordlist.pages.dev/api";
+const DEFAULT_API_URL = "https://topdiscordlist.com/api";
 class Client {
     token;
     apiUrl;
